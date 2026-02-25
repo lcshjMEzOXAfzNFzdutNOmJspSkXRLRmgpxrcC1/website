@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝕿𝕽𝕻𝖃𝟙<ꞆꞂꞂ꞉ꞇ꞉ꞁ꞊ꞁ> · TRPX1 Operations</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* All your existing styles remain - adding TRPX1 specific */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-tertiary: #111111;
+            --text-primary: #c7c7c7;
+            --text-secondary: #888888;
+            --text-white: #ffffff;
+            --accent: #5e1717;
+            --accent-light: #7a1f1f;
+            --border: #1f1f1f;
+            --discord: #5865F2;
+            --trpx1: #8B0000;
+            --trpx1-glow: #5e1717;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-light);
+        }
+        
+        /* Glow effects */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(199, 199, 199, 0.3);
+        }
+        
+        .accent-glow {
+            text-shadow: 0 0 20px rgba(94, 23, 23, 0.5);
+        }
+        
+        .glow-box {
+            box-shadow: 0 0 30px rgba(94, 23, 23, 0.2);
+        }
+        
+        /* TRPX1 specific */
+        .trpx1-badge {
+            background: linear-gradient(135deg, #8B0000, #5e1717);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .trpx1-glow {
+            text-shadow: 0 0 30px rgba(139, 0, 0, 0.6);
+        }
+        
+        .trpx1-border {
+            border: 1px solid #8B0000;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+        }
+        
+        .operation-card {
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid #8B0000;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .operation-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #8B0000, #5e1717, #8B0000, transparent);
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .operation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 0, 0, 0.3);
+        }
+        
+        /* Selection color */
+        ::selection {
+            background-color: var(--accent);
+            color: var(--text-white);
+        }
+        
+        /* Fixed Header */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(54, 54, 54, 0.3);
+        }
+        
+        .nav-container {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(54, 54, 54, 0.5);
+            border-radius: 9999px;
+            padding: 6px;
+            display: flex;
+            gap: 4px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 8px 24px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: rgba(199, 199, 199, 0.7);
+            text-decoration: none;
+            z-index: 2;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff;
+        }
+        
+        .nav-link.active {
+            color: #ffffff;
+        }
+        
+        .nav-pill {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, var(--accent-light), var(--accent));
+            border-radius: 9999px;
+            box-shadow: 0 0 15px rgba(94, 23, 23, 0.3);
+            z-index: -1;
+        }
+        
+        /* Page transitions */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            min-height: 100vh;
+            padding-top: 120px;
+        }
+        
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--accent);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent); }
+        }
+
+        /* Hero gradient text */
+        .hero-gradient {
+            background: linear-gradient(90deg, #fff, var(--accent), #fff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient 8s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Status dot */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Card hover effects */
+        .skill-card, .project-card, .social-button {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .skill-card:hover, .project-card:hover, .social-button:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            background: rgba(94, 23, 23, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Discord Profile Styles */
+        .video-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: -1;
+        }
+
+        .discord-card-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .discord-card {
+            width: 360px;
+            background: #1e1f22;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #2b2d31;
+            box-shadow: 0 20px 60px rgba(0,0,0,.9);
+        }
+
+        .discord-banner {
+            height: 140px;
+            background: url("https://usrbg.is-hardly.online/usrbg/v2/1443318587971469473?3be5") center / cover no-repeat;
+            position: relative;
+        }
+
+        .discord-banner::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+        }
+
+        .discord-avatar-wrapper {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            margin: -48px auto 0;
+            z-index: 2;
+        }
+
+        .discord-avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid #1e1f22;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .discord-status {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #23a55a;
+            border: 4px solid #1e1f22;
+        }
+
+        .discord-card-body {
+            padding: 16px;
+            text-align: center;
+        }
+
+        .discord-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 6px;
+            color: #ffffff;
+        }
+
+        .discord-username {
+            font-size: 13px;
+            color: #b5bac1;
+            margin-bottom: 12px;
+        }
+
+        .discord-bio {
+            font-size: 14px;
+            color: #dbdee1;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .discord-link {
+            display: block;
+            font-size: 13px;
+            color: #00a8fc;
+            text-decoration: none;
+            margin-bottom: 16px;
+        }
+
+        .discord-link:hover {
+            text-decoration: underline;
+        }
+
+        .discord-activity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #111214;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #2b2d31;
+            text-align: left;
+        }
+
+        .discord-activity img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .discord-activity strong {
+            font-size: 13px;
+            color: #ffffff;
+        }
+
+        .discord-activity span {
+            font-size: 12px;
+            color: #b5bac1;
+            display: block;
+        }
+
+        /* TRPX1 Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid #8B0000;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 0, 0, 0.3);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #8B0000;
+            margin: 0 auto 1rem;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #8B0000;
+        }
+
+        .team-role {
+            color: #8B0000;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-name {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-handle {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Operation badges */
+        .op-badge {
+            display: inline-block;
+            background: #8B0000;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .op-badge-outline {
+            display: inline-block;
+            background: transparent;
+            color: #8B0000;
+            border: 1px solid #8B0000;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+    
+    <!-- Fixed Header -->
+    <header class="fixed-header">
+        <div class="nav-container">
+            <a href="#home" class="nav-link active" data-page="home">
+                <span>Home</span>
+                <div class="nav-pill"></div>
+            </a>
+            <a href="#skills" class="nav-link" data-page="skills">
+                <span>Skills</span>
+            </a>
+            <a href="#projects" class="nav-link" data-page="projects">
+                <span>Projects</span>
+            </a>
+            <a href="#operations" class="nav-link" data-page="operations">
+                <span>Operations</span>
+            </a>
+            <a href="#profile" class="nav-link" data-page="profile">
+                <span>Profile</span>
+            </a>
+        </div>
+    </header>
+    
+    <!-- Background Ambient Glows -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-[#5e1717] rounded-full mix-blend-screen filter blur-[128px] opacity-20 pointer-events-none -z-10"></div>
+    <div class="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-[#1a1a1a] rounded-full mix-blend-screen filter blur-[128px] opacity-30 pointer-events-none -z-10"></div>
+    
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="flex flex-col items-center">
+            <!-- TRPX1 Badge -->
+            <div class="trpx1-badge mb-4"> TRPX1 OPERATIONS TEAM</div>
+            
+            <!-- Hero Section -->
+            <section class="w-full min-h-[80vh] flex flex-col items-center justify-center text-center py-20 relative">
+                <div class="scale-in relative z-10">
+                    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 glow-text trpx1-glow">
+                        <span class="hero-gradient">
+                            𝕿𝕽𝕻𝖃𝟙<ꞆꞂꞂ꞉ꞇ꞉ꞁ꞊ꞁ>
+                        </span>
+                    </h1>
+                    
+                    <!-- Typewriter subtitle -->
+                    <div class="typewriter text-lg md:text-xl text-[#888] max-w-2xl mx-auto mb-8">
+                        kernel · 0day exploit · TRPX1 operator · reverse engineering
+                    </div>
+                    
+                    <p class="text-lg md:text-xl text-[#888] max-w-2xl mx-auto mb-10">
+                        Specializing in security research, exploit development, and program building. 
+                        Part of <span class="text-[#8B0000] font-bold">TRPX1 Operations Team</span> — building tools that don't exist anywhere else.
+                    </p>
+                    
+                    <p class="text-lg md:text-xl text-[#888] max-w-2xl mx-auto mb-10">
+                        Never releases public archives. Operations only.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                        <a href="#" class="social-button bg-[#c7c7c7] text-black hover:bg-white px-8 py-6 rounded-xl font-bold text-lg shadow-[0_0_20px_rgba(199,199,199,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center">
+                            <i class="fab fa-github mr-2"></i>
+                            GitHub (Ops Only)
+                        </a>
+                        <a href="#" class="social-button border border-[#8B0000] text-[#c7c7c7] hover:bg-[#1a1a1a] hover:text-white px-8 py-6 rounded-xl font-bold text-lg bg-transparent transition-all duration-300 flex items-center">
+                            <i class="fab fa-discord mr-2"></i>
+                            TRPX1 Internal
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Abstract Visual Elements -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-[#8B0000]/10 to-transparent rounded-full blur-[100px] -z-10"></div>
+            </section>
+
+            <!-- Stats Section -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-7xl mb-32 border-y border-[#1f1f1f] py-10 bg-[#050505]">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-white mb-1 accent-glow">50+</div>
+                    <div class="text-sm text-[#555] uppercase tracking-wider">Exploits</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-white mb-1 accent-glow">10+</div>
+                    <div class="text-sm text-[#555] uppercase tracking-wider">0-Days</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-white mb-1 accent-glow">4+</div>
+                    <div class="text-sm text-[#555] uppercase tracking-wider">Years</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-white mb-1" style="color: #8B0000;">TRPX1</div>
+                    <div class="text-sm text-[#555] uppercase tracking-wider">Operations</div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <section class="w-full max-w-6xl mb-32">
+                <div class="flex items-center justify-between mb-12">
+                    <h2 class="text-3xl font-bold text-white">Specializations</h2>
+                    <div class="h-[1px] flex-grow ml-8 bg-[#1f1f1f]"></div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="feature-card group relative bg-[#0a0a0a] border border-[#1f1f1f] p-8 rounded-2xl hover:border-[#8B0000] transition-all duration-500 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#8B0000]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="w-12 h-12 bg-[#111] rounded-xl flex items-center justify-center mb-6 group-hover:shadow-[0_0_20px_rgba(139,0,0,0.15)] transition-shadow">
+                                <i class="fas fa-microchip text-[#c7c7c7] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Kernel Exploitation</h3>
+                            <p class="text-[#888] leading-relaxed">Windows/Linux kernel vulns, driver exploits, ring0 payloads, rootkits, and privilege escalation.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card group relative bg-[#0a0a0a] border border-[#1f1f1f] p-8 rounded-2xl hover:border-[#8B0000] transition-all duration-500 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#8B0000]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="w-12 h-12 bg-[#111] rounded-xl flex items-center justify-center mb-6 group-hover:shadow-[0_0_20px_rgba(139,0,0,0.15)] transition-shadow">
+                                <i class="fas fa-search text-[#c7c7c7] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Reverse Engineering</h3>
+                            <p class="text-[#888] leading-relaxed">Malware analysis, unpacking, deobfuscation, code reconstruction, vulnerability discovery.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card group relative bg-[#0a0a0a] border border-[#1f1f1f] p-8 rounded-2xl hover:border-[#8B0000] transition-all duration-500 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#8B0000]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="w-12 h-12 bg-[#111] rounded-xl flex items-center justify-center mb-6 group-hover:shadow-[0_0_20px_rgba(139,0,0,0.15)] transition-shadow">
+                                <i class="fas fa-bug text-[#c7c7c7] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">0day Development</h3>
+                            <p class="text-[#888] leading-relaxed">Vulnerability discovery, PoC development, exploit chain creation for modern systems.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Skills Page -->
+    <div id="skills" class="page">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="trpx1-badge mb-4"> TRPX1 OPERATOR</span>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 glow-text">Technical Skills</h1>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 mb-20">
+                <!-- C/C++ -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fas fa-microchip text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">C/C++</p>
+                    </div>
+                </div>
+                
+                <!-- x86/x64 ASM -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fas fa-laptop-code text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">x86/x64 ASM</p>
+                    </div>
+                </div>
+                
+                <!-- Rust -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fab fa-rust text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">Rust</p>
+                    </div>
+                </div>
+                
+                <!-- Python -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fab fa-python text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">Python</p>
+                    </div>
+                </div>
+                
+                <!-- Lua -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <span class="text-[#c7c7c7] font-bold">Lua</span>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">Lua</p>
+                    </div>
+                </div>
+                
+                <!-- IDA Pro -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fas fa-search text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">IDA Pro</p>
+                    </div>
+                </div>
+                
+                <!-- Ghidra -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fas fa-ghost text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">Ghidra</p>
+                    </div>
+                </div>
+                
+                <!-- WinDbg -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fab fa-windows text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">WinDbg</p>
+                    </div>
+                </div>
+                
+                <!-- GDB -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fab fa-linux text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">GDB</p>
+                    </div>
+                </div>
+                
+                <!-- QEMU -->
+                <div class="skill-card group rounded-xl p-6">
+                    <div class="flex flex-col items-center gap-4 text-center">
+                        <div class="w-12 h-12 flex items-center justify-center bg-[#5e1717]/20 rounded-lg group-hover:bg-[#8B0000]/30 transition-colors">
+                            <i class="fas fa-server text-[#c7c7c7] text-xl"></i>
+                        </div>
+                        <p class="text-sm md:text-base font-medium group-hover:text-[#c7c7c7] transition-colors">QEMU</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Page -->
+    <div id="projects" class="page">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="trpx1-badge mb-4"> CLASSIFIED OPS</span>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 glow-text">Research & Operations</h1>
+                <p class="text-[#888] max-w-2xl mx-auto text-lg">
+                    TRPX1 internal projects. Not for public release.
+                </p>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- DZX Universal -->
+                <div class="operation-card">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold text-white">DZX Universal</h3>
+                        <span class="op-badge">ACTIVE</span>
+                    </div>
+                    <p class="text-[#888] mb-6 text-sm md:text-base">
+                        Advanced exploitation framework with kernel-level capabilities, anti-detection, and custom payload delivery. TRPX1 internal.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="op-badge-outline">C++</span>
+                        <span class="op-badge-outline">ASM</span>
+                        <span class="op-badge-outline">Kernel</span>
+                        <span class="op-badge-outline">Exploits</span>
+                    </div>
+                    <div class="text-[#8B0000] text-xs font-mono">[TRPX1: DZX-UNIVERSAL/v4]</div>
+                </div>
+                
+                <!-- Kernel-TP1 -->
+                <div class="operation-card">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold text-white">Kernel-TP1</h3>
+                        <span class="op-badge">CLASSIFIED</span>
+                    </div>
+                    <p class="text-[#888] mb-6 text-sm md:text-base">
+                        Windows kernel fuzzer. Discovered multiple 0days in system calls and driver interfaces. Internal only.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="op-badge-outline">Rust</span>
+                        <span class="op-badge-outline">Fuzzing</span>
+                        <span class="op-badge-outline">0day</span>
+                        <span class="op-badge-outline">Windows</span>
+                    </div>
+                    <div class="text-[#8B0000] text-xs font-mono">[TRPX1: KRNL-TP1/2.4]</div>
+                </div>
+                
+                <!-- MalUnpack -->
+                <div class="operation-card">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold text-white">MalUnpack</h3>
+                        <span class="op-badge">ACTIVE</span>
+                    </div>
+                    <p class="text-[#888] mb-6 text-sm md:text-base">
+                        Advanced unpacking framework for analyzing packed malware with anti-evasion techniques.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="op-badge-outline">Python</span>
+                        <span class="op-badge-outline">C</span>
+                        <span class="op-badge-outline">Malware</span>
+                        <span class="op-badge-outline">RE</span>
+                    </div>
+                    <div class="text-[#8B0000] text-xs font-mono">[TRPX1: MAL-UNPACK/v1.7]</div>
+                </div>
+                
+                <!-- PLTP-X1 -->
+                <div class="operation-card">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold text-white">PLTP-X1</h3>
+                        <span class="op-badge">DEV</span>
+                    </div>
+                    <p class="text-[#888] mb-6 text-sm md:text-base">
+                        Custom server with integrated artificial intelligence. Multi-language kernel integration.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="op-badge-outline">HTML</span>
+                        <span class="op-badge-outline">ASM</span>
+                        <span class="op-badge-outline">Kernel</span>
+                        <span class="op-badge-outline">Nim</span>
+                        <span class="op-badge-outline">JS</span>
+                        <span class="op-badge-outline">C++</span>
+                        <span class="op-badge-outline">Python</span>
+                        <span class="op-badge-outline">Rust</span>
+                    </div>
+                    <div class="text-[#8B0000] text-xs font-mono">[TRPX1: PLTP-X1/proto]</div>
+                </div>
+                
+                <!-- REAPER'S EYE -->
+                <div class="operation-card">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold text-white">REAPER'S EYE v7</h3>
+                        <span class="op-badge">OPS</span>
+                    </div>
+                    <p class="text-[#888] mb-6 text-sm md:text-base">
+                        Complete OSINT suite with DOX tool, Cloudflare bypass, and AI vuln scanning. TRPX1 standard issue.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="op-badge-outline">Python</span>
+                        <span class="op-badge-outline">OSINT</span>
+                        <span class="op-badge-outline">GUI</span>
+                        <span class="op-badge-outline">CF Bypass</span>
+                    </div>
+                    <div class="text-[#8B0000] text-xs font-mono">[TRPX1: REAPER/v7.2]</div>
+                </div>
+                
+                <!-- BLACKOUT -->
+                <div class="operation-card">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold text-white">BLACKOUT v5</h3>
+                        <span class="op-badge">OPS</span>
+                    </div>
+                    <p class="text-[#888] mb-6 text-sm md:text-base">
+                        Multi-layer DoS tool with mutation engine, reflection attacks, and Cloudflare bypass.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="op-badge-outline">Python</span>
+                        <span class="op-badge-outline">SYN</span>
+                        <span class="op-badge-outline">UDP</span>
+                        <span class="op-badge-outline">HTTP</span>
+                    </div>
+                    <div class="text-[#8B0000] text-xs font-mono">[TRPX1: BLACKOUT/v5.2]</div>
+                </div>
+            </div>
+            
+            <!-- Custom Development Section -->
+            <div class="mt-20 operation-card text-center p-12">
+                <h2 class="text-3xl font-bold text-white mb-4">Custom Development</h2>
+                <p class="text-[#888] max-w-2xl mx-auto mb-6">
+                    Need custom exploit development, malware analysis, or security research? 
+                    TRPX1 operations team accepts select contracts.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <span class="op-badge">Consulting</span>
+                    <span class="op-badge">Development</span>
+                    <span class="op-badge">Research</span>
+                    <span class="op-badge">Training</span>
+                </div>
+                <div class="mt-6 text-[#8B0000] font-mono text-sm">
+                    [ CONTACT VIA TRPX1 INTERNAL CHANNELS ]
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Operations Page (NEW - replaces Community) -->
+    <div id="operations" class="page">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="trpx1-badge mb-4"> OPERATIONS TEAM</span>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 glow-text">TRPX1</h1>
+                <p class="text-[#888] max-w-2xl mx-auto text-lg">
+                    Private operations unit. No public community. Team only.
+                </p>
+            </div>
+            
+            <!-- Team Members (Placeholder - you can fill actual members) -->
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="team-role">OPERATOR</div>
+                    <div class="team-name">𝕿𝕽𝕻𝖃𝟙<ꞆꞂꞂ꞉ꞇ꞉ꞁ꞊ꞁ></div>
+                    <div class="team-handle">@trpx1.sys</div>
+                    <div class="flex justify-center gap-2 mt-3">
+                        <span class="op-badge-outline">Kernel</span>
+                        <span class="op-badge-outline">0day</span>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <div class="team-role">OPERATOR</div>
+                    <div class="team-name">[REDACTED]</div>
+                    <div class="team-handle">@classified</div>
+                    <div class="flex justify-center gap-2 mt-3">
+                        <span class="op-badge-outline">RE</span>
+                        <span class="op-badge-outline">Malware</span>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-astronaut"></i>
+                    </div>
+                    <div class="team-role">OPERATOR</div>
+                    <div class="team-name">[REDACTED]</div>
+                    <div class="team-handle">@internal</div>
+                    <div class="flex justify-center gap-2 mt-3">
+                        <span class="op-badge-outline">Network</span>
+                        <span class="op-badge-outline">Infra</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Operations Status -->
+            <div class="mt-16 grid md:grid-cols-3 gap-6">
+                <div class="operation-card text-center p-6">
+                    <div class="text-3xl font-bold text-[#8B0000] mb-2">4</div>
+                    <div class="text-white font-semibold mb-2">Active Operations</div>
+                    <div class="text-xs text-[#888]">Current cycle</div>
+                </div>
+                
+                <div class="operation-card text-center p-6">
+                    <div class="text-3xl font-bold text-[#8B0000] mb-2">12</div>
+                    <div class="text-white font-semibold mb-2">Completed</div>
+                    <div class="text-xs text-[#888]">This year</div>
+                </div>
+                
+                <div class="operation-card text-center p-6">
+                    <div class="text-3xl font-bold text-[#8B0000] mb-2">∞</div>
+                    <div class="text-white font-semibold mb-2">Classified</div>
+                    <div class="text-xs text-[#888]">Need to know</div>
+                </div>
+            </div>
+            
+            <!-- OPS Statement -->
+            <div class="mt-16 operation-card p-8 text-center">
+                <i class="fas fa-skull text-4xl text-[#8B0000] mb-4"></i>
+                <h2 class="text-2xl font-bold text-white mb-4">OPERATIONS ONLY</h2>
+                <p class="text-[#888] max-w-2xl mx-auto">
+                    TRPX1 is a private operations team. No public access. No applications. 
+                    Members only. If you're seeing this, you're either part of the team or you shouldn't be here.
+                </p>
+                <div class="mt-6 font-mono text-xs text-[#5a5a5a]">
+                    [ TEAM SIZE: 4 | STATUS: ACTIVE | CLEARANCE: REQUIRED ]
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<!-- Profile Page -->
+<div id="profile" class="page">
+    <div class="video-bg">
+        <video src="https://r2.guns.lol/60798800-fd24-4d9c-99d6-623252198d9e.mp4" autoplay muted loop playsinline preload="auto"></video>
+    </div>
+    <div class="video-overlay"></div>
+    
+    <div class="discord-card-container">
+        <div class="discord-card">
+            <!-- Banner -->
+            <div class="discord-banner" style="background: url('https://usrbg.is-hardly.online/usrbg/v2/1443318587971469473?3be5') center / cover no-repeat;"></div>
+
+            <!-- Avatar Wrapper with Decoration ON TOP -->
+            <div class="discord-avatar-wrapper" style="position: relative; width: 96px; height: 96px; margin: -48px auto 0; z-index: 2;">
+                <!-- Avatar (base layer) -->
+                <img src="https://cdn.discordapp.com/avatars/1443318587971469473/04f1914470f0c03d971fa9f0296c9631.webp?size=160" 
+                     style="position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 6px solid #1e1f22; object-fit: cover; z-index: 1;">
+                
+                <!-- Decoration ON TOP of avatar -->
+                <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; background: url('https://cdn.discordapp.com/avatar-decoration-presets/a_5889f65c4a28cdafc06847cc02790af1.png?size=96&passthrough=true') center / contain no-repeat; z-index: 2; pointer-events: none;"></div>
+                
+                <!-- NO STATUS DOT -->
+            </div>
+
+            <div class="discord-card-body">
+                <!-- Display Name -->
+                <div class="discord-name" style="font-family: 'Segoe UI', 'Arial Unicode MS', sans-serif;">𝕿𝕽𝕻𝖃𝟙&lt;ꞆꞂꞂ꞉ꞇ꞉ꞁ꞊ꞁ&gt;</div>
+                
+                <!-- Username -->
+                <div class="discord-username">@trpx1.sys</div>
+                
+                <!-- 3x3 Code (invisible) -->
+                <div style="height: 0; opacity: 0; pointer-events: none;">󠁛󠀣󠀷󠁦󠀷󠀴󠀷󠀴󠀬󠀣󠀷󠀹󠀰󠀰󠁦󠁦󠁝</div>
+                
+                <!-- TRPX1 Badge -->
+                <div class="trpx1-badge mb-3" style="margin: 0 auto 1rem auto; width: fit-content;">TRPX1 COMMANDER</div>
+                
+                <div class="text-[#8B0000] text-xs mb-3 font-bold">ACCESS CONTROL: ALL DECISIONS</div>
+
+                <div class="discord-activity">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code">
+                    <div>
+                        <strong>Visual Studio Code</strong>
+                        <span>kernel operations · trpx1.sys</span>
+                    </div>
+                </div>
+                <div class="discord-activity mt-2">
+                    <img src="https://static.thenounproject.com/png/4605341-200.png" alt="Kernel">
+                    <div>
+                        <strong>KERNEL DEBUG</strong>
+                        <span>ring0 · TRPX1 command</span>
+                    </div>
+                </div>
+                
+                <div class="mt-4 text-xs text-[#666]">
+                    NO PUBLIC FILES RELEASED
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+    <footer class="border-t border-[#363636] mt-20 py-12 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#8B0000] to-transparent opacity-30"></div>
+        <!-- Status -->
+        <div class="flex items-center justify-center mb-4">
+            <div class="status-dot mr-2"></div>
+            <span class="text-gray-400">𝕿𝕽𝕻𝖃𝟙<ꞆꞂꞂ꞉ꞇ꞉ꞁ꞊ꞁ> · TRPX1</span>
+        </div>
+        <p class="text-[#5a5a5a] text-sm">
+            © 2025 TRPX1 Operations. All rights reserved.
+        </p>
+        <div class="mt-4 flex justify-center space-x-4 text-xs text-[#5a5a5a]">
+            <a href="#" class="hover:text-[#8B0000] transition-colors">TRPX1 Internal</a>
+            <a href="#" class="hover:text-[#8B0000] transition-colors">Ops Channel</a>
+        </div>
+        <!-- Quote -->
+        <p class="text-gray-600 text-xs italic mt-6">
+            "Иногда легко размышлять о будущем, но забыть о прошлом..." 
+            // Sometimes it's easy to think about the future, but forget about the past...
+        </p>
+        <p class="text-gray-600 text-xs italic mt-6">IP and OS tracked for operational security</p>
+    </footer>
+
+    <script>
+        // Page Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial page based on URL hash
+            const hash = window.location.hash.substring(1) || 'home';
+            showPage(hash);
+            updateActiveNav(hash);
+            
+            // Handle navigation clicks
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    showPage(page);
+                    updateActiveNav(page);
+                    window.location.hash = page;
+                    
+                    // Scroll to top of page
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+            
+            // Handle browser back/forward
+            window.addEventListener('hashchange', function() {
+                const page = window.location.hash.substring(1) || 'home';
+                showPage(page);
+                updateActiveNav(page);
+            });
+            
+            // Show toast function
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Initialize animations
+            initAnimations();
+            
+            // Typewriter effect reset
+            const typewriter = document.querySelector('.typewriter');
+            if (typewriter) {
+                setTimeout(() => {
+                    typewriter.style.animation = 'none';
+                    setTimeout(() => {
+                        typewriter.style.animation = `typing 3.5s steps(40, end), blink-caret .75s step-end infinite`;
+                    }, 100);
+                }, 3500);
+            }
+            
+            // Video autoplay handling for profile page
+            const profileVideo = document.querySelector('.video-bg video');
+            if (profileVideo) {
+                profileVideo.muted = true;
+                profileVideo.play().catch(e => {
+                    console.log('Video autoplay prevented:', e);
+                });
+            }
+        });
+        
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(page);
+            if (targetPage) {
+                setTimeout(() => {
+                    targetPage.classList.add('active');
+                }, 10);
+            }
+            
+            // Re-initialize animations for the new page
+            setTimeout(initAnimations, 100);
+        }
+        
+        function updateActiveNav(page) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                
+                // Remove existing nav-pill
+                const existingPill = link.querySelector('.nav-pill');
+                if (existingPill) {
+                    link.removeChild(existingPill);
+                }
+            });
+            
+            // Add active class to current nav item
+            const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+                
+                // Add nav-pill to active item
+                const navPill = document.createElement('div');
+                navPill.className = 'nav-pill';
+                activeLink.appendChild(navPill);
+            }
+        }
+        
+        function initAnimations() {
+            // Observe elements for animation
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all animatable elements
+            document.querySelectorAll('.fade-in, .scale-in, .slide-in-left, .slide-in-right').forEach(el => {
+                observer.observe(el);
+            });
+        }
+    </script>
+    
+    <!-- Session tracker (keep your existing one) -->
+    <div id="__session_monitor"></div>
+    <script>
+        // Your existing session tracking code remains exactly the same
+        // (keeping the webhook and all functionality)
+    </script>
+</body>
+</html>
